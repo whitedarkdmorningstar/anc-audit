@@ -74,7 +74,7 @@ export async function fetchDashboardDataAsync(
   })) as PatientInfo[]
 }
 
-export async function deleteProformaAsync(docId: string, patientId: string) {
+export async function deleteProformaAsync(docId: string) {
   const docRef = doc(collection(firestore, APP.PROFORMA_KEY), docId)
 
   await deleteDoc(docRef)
