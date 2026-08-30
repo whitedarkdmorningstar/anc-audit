@@ -20,3 +20,4 @@ With the help of Copilot, Gemini, I wrote this website '`ANC Audit`' powered by 
 
 - Start date - 09.08.2026
 - Finished date version 0.0.1 - 20.08.2026
+- Finished date version 0.1.1 - 30.08.2026
