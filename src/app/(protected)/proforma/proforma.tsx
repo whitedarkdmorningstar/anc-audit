@@ -25,7 +25,7 @@ import { useProtectedAuth } from "@/hooks/use-auth"
 import { submitAsync } from "@/lib/firebase/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
-import { useCallback } from "react"
+import { useCallback, useEffect } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import Investigation from "./investigation"
 import Rating from "./rating"
@@ -41,6 +41,15 @@ export default function Proforma() {
     mode: "onSubmit",
   })
 
+  const bp = methods.watch("bloodPressure.measured")
+
+  useEffect(() => {
+    if (!bp) {
+      methods.unregister("bloodPressure.diastolic")
+      methods.unregister("bloodPressure.systolic")
+    }
+  }, [bp])
+
   const renderCheckbox = useCallback(
     (e: { label: string; name: string }) => (
       <FieldCheckbox {...e} key={e.name} />
@@ -52,8 +61,8 @@ export default function Proforma() {
   const onSubmit = async (value: ProformaValue) => {
     const { success } = ProformaSchema.safeParse(value)
     if (success) {
-      // Check if current patient id is already submited
       await submitAsync(value)
+      // Check if current patient id is already submited
       router.push(PATH.DASHBOARD)
     }
   }
@@ -81,6 +90,8 @@ export default function Proforma() {
             className={"grid grid-cols-2 lg:grid-cols-4"}
           >
             <FieldInput name={"age"} type={"number"} addOn={"years"} />
+            <FieldInput name={"weight"} type={"number"} addOn={"lb"} />
+
             <FieldInput
               label={"Height (feet)"}
               addOn={"ft"}
@@ -93,13 +104,6 @@ export default function Proforma() {
               name={"height.inches"}
               type={"number"}
             />
-            {/* <FieldDualInputs
-              firstLabel={"Height (feet)"}
-              secondLabel={"Height (inches)"}
-              names={["height.feet", "height.inches"]}
-            /> */}
-
-            <FieldInput name={"weight"} type={"number"} addOn={"lb"} />
 
             <FieldInput name={"gravita"} type={"number"} />
             <FieldInput name={"parity"} />
@@ -115,12 +119,6 @@ export default function Proforma() {
               name={"maturity.days"}
               type={"number"}
             />
-
-            {/* <FieldDualInputs
-              firstLabel={"Maturity (weeks)"}
-              secondLabel={"Maturity (days)"}
-              names={["maturity.weeks", "maturity.days"]}
-            /> */}
           </Section>
 
           <Section

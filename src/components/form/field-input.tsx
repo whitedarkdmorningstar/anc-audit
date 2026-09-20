@@ -78,6 +78,7 @@ export function FieldInput(props: FieldInputProps) {
               valueAsNumber: type === "number",
               onBlur,
             })}
+            type={type}
           />
           <InputGroupAddon
             align={addOnAlign === "start" ? "inline-start" : "inline-end"}
@@ -90,6 +91,7 @@ export function FieldInput(props: FieldInputProps) {
           id={name}
           autoComplete="off"
           disabled={disabled}
+          type={type}
           aria-invalid={Boolean(errors[name]?.message)}
           {...register(name, { valueAsNumber: type === "number", onBlur })}
         />

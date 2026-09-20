@@ -113,8 +113,6 @@ export const DEFAULT_PROFORMA = {
 
   bloodPressure: {
     measured: true,
-    // systolic: 120,
-    // diastolic: 80,
   },
 
   // Investigations
